@@ -7,6 +7,8 @@ namespace CasdoorLogin.Controllers
     [Route("auth")]
     public sealed class CasdoorAuthController : Controller
     {
+        private const string AccessTokenKey = "access_token";
+
         private readonly IConfiguration _config;
         private readonly IHttpClientFactory _httpClientFactory;
 
@@ -34,17 +36,35 @@ namespace CasdoorLogin.Controllers
         {
             var token = await ExchangeCodeForTokenAsync(code);
 
+            Response.Cookies.Append(AccessTokenKey, token, new CookieOptions
+            {
+                HttpOnly = true,
+                // Secure = true,
+                SameSite = SameSiteMode.Lax
+                // SameSite = SameSiteMode.Strict
+            });
+
+
+            return Redirect("/auth/user");
+        }
+
+        [HttpGet("user")]
+        public IActionResult UserInfoFromCookie()
+        {
+            var token = Request.Cookies[AccessTokenKey];
+
+            if (string.IsNullOrEmpty(token))
+                return Unauthorized("No access token found.");
+
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(token);
-
             var claims = jwtToken.Claims.ToDictionary(c => c.Type, c => c.Value);
-
-            var username = claims.ContainsKey("name") ? claims["name"] : "Unknown";
 
             var info = JsonSerializer.Serialize(claims, new JsonSerializerOptions { WriteIndented = true });
 
-            return Content($"Access token:\n{token}\n\nDecoded claims:\n{info}\n\nUsername: {username}");
+            return Content($"Decoded claims from cookie:\n\n{info}");
         }
+
 
         private async Task<string> ExchangeCodeForTokenAsync(string code)
         {

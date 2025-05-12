@@ -37,3 +37,4 @@ D:\KPI\3\sem 2\Web\lab3\CasdoorLogin\CasdoorLogin\obj\Debug\net8.0\refint\Casdoo
 D:\KPI\3\sem 2\Web\lab3\CasdoorLogin\CasdoorLogin\obj\Debug\net8.0\CasdoorLogin.pdb
 D:\KPI\3\sem 2\Web\lab3\CasdoorLogin\CasdoorLogin\obj\Debug\net8.0\CasdoorLogin.genruntimeconfig.cache
 D:\KPI\3\sem 2\Web\lab3\CasdoorLogin\CasdoorLogin\obj\Debug\net8.0\ref\CasdoorLogin.dll
+D:\KPI\3\sem 2\Web\lab3\casdoorlogin\casdoorlogin\obj\Debug\net8.0\CasdoorLogin.sourcelink.json
